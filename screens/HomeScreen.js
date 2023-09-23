@@ -7,6 +7,7 @@ import { Icon } from 'react-native-elements';
 import { useDispatch } from 'react-redux';
 import { setOrigin, setDestination } from '../slices/navSlice';
 import { GOOGLE_MAPS_API_KEY } from '@env';
+import NavFavorites from '../components/NavFavorites';
 // import Geolocation from 'react-native-geolocation-service';
 /**
  *
@@ -87,21 +88,23 @@ const HomeScreen = () => {
 						)}
 						listViewDisplayed={true}
 						enabledPoweredByContainer={false}
-						onPress={(data, details) => {
-							console.log(data);
-							// console.log(details.geometry);
-							// dispatch(
-							// 	setOrigin({
-							// 		location: details.geometry.location,
-							// 		description: data.description,
-							// 	})
-							// );
-							// dispatch(setDestination(null));
+						onPress={(data, details = null) => {
+							console.log(details.geometry.location);
+							dispatch(
+								setOrigin({
+									location: details.geometry.location,
+									description: data.description,
+								})
+							);
+							// by default it is null, but specifying here would make it clearer
+							dispatch(setDestination(null));
 						}}
+						fetchDetails={true}
 						returnKeyType={'search'}
 					/>
 					{/* </View> */}
 					<NavOptions />
+					<NavFavorites />
 				</View>
 			</SafeAreaView>
 		);
